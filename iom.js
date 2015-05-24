@@ -14,7 +14,8 @@ accel.on('ready', function () {
 		// 	'y:', xyz[1].toFixed(2),
 		// 	'z:', xyz[2].toFixed(2))
 
-		accelData.push({x: xyz[0], y: xyz[1], z: xyz[2]})
+		var t = Date.now() % 1000000 // since we only care about time differences
+		accelData.push({x: xyz[0], y: xyz[1], z: xyz[2], t: t})
 		accelReady = true
 	})
 })
