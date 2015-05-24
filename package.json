@@ -1,0 +1,23 @@
+{
+  "name": "iom-tessel",
+  "version": "1.0.0",
+  "description": "Internet of Mice client for Tessel",
+  "main": "iom.js",
+  "dependencies": {
+    "accel-mma84": "^0.2.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/egansoft/iom-tessel.git"
+  },
+  "author": "Nicholas Egan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/egansoft/iom-tessel/issues"
+  },
+  "homepage": "https://github.com/egansoft/iom-tessel"
+}
