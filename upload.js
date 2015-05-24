@@ -6,7 +6,7 @@ module.exports = (function(baseUrl){
 	my = {}
 	my.ready = false
 
-	my.sendData = function(path, data) {
+	my.sendData = function(path, data, callback) {
 		var postData = JSON.stringify(data)
 		console.log(postData)
 
@@ -21,12 +21,8 @@ module.exports = (function(baseUrl){
 		}, function(res){
 			console.log('Status: ' + res.statusCode)
 
-			res.on('data', function (chunk) {
-				console.log('BODY: ' + chunk)
-				my.name = JSON.parse(chunk).name
-				my.ready = true
-			})
-
+			if(callback)
+				callback(res)
 		})
 
 		request.on('error', function(e) {
@@ -41,7 +37,13 @@ module.exports = (function(baseUrl){
 	my.init = function() {
 		my.id = (new Date()).getTime() % 1000000 // b/c Math.random doesn't work
 		var data = {id: my.id, receiving: false}
-		my.sendData('/devices.json', data)
+		my.sendData('/devices.json', data, function(res) {
+			res.on('data', function (chunk) {
+				console.log('BODY: ' + chunk)
+				my.name = JSON.parse(chunk).name
+				my.ready = true
+			})
+		})
 	}
 
 	return my
