@@ -6,21 +6,29 @@ module.exports = (function(baseUrl){
 	my = {}
 	var id = Math.random()
 
-	my.init = function() {
-		var data = {id: id, receiving: false}
+	my.ready = false
+
+	my.sendData = function(path, data) {
 		var postData = JSON.stringify(data)
 		console.log(postData)
 
 		var request = https.request({
 			host:'internet-of-mice.firebaseio.com',
 			method:'POST',
-			path:'/devices.json',
+			path:path,
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 				'Content-Length': postData.length
 			}
 		}, function(res){
 			console.log('Status: ' + res.statusCode)
+
+			res.on('data', function (chunk) {
+				console.log('BODY: ' + chunk)
+				my.name = JSON.parse(chunk).name
+				my.ready = true
+			})
+
 		})
 
 		request.on('error', function(e) {
@@ -30,7 +38,11 @@ module.exports = (function(baseUrl){
 
 		request.write(postData)
 		request.end()
+	}
 
+	my.init = function() {
+		var data = {id: id, receiving: false}
+		my.sendData('/devices.json', data)
 	}
 
 	return my
