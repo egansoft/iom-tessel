@@ -4,8 +4,6 @@ var http = require('http')
 
 module.exports = (function(baseUrl){
 	my = {}
-	var id = Math.random()
-
 	my.ready = false
 
 	my.sendData = function(path, data) {
@@ -41,7 +39,8 @@ module.exports = (function(baseUrl){
 	}
 
 	my.init = function() {
-		var data = {id: id, receiving: false}
+		my.id = (new Date()).getTime() % 1000000 // b/c Math.random doesn't work
+		var data = {id: my.id, receiving: false}
 		my.sendData('/devices.json', data)
 	}
 
